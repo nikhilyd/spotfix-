@@ -27,12 +27,12 @@ export const getTaskDetails = [
   verifyTaskToken,
   async (req, res) => {
     const task = req.task;
-    // send minimal safe info
     return res.json({
       taskId: task._id,
       issue: task.description,
       location: task.location || null,
-      reportedImage: task.media && task.media.length ? task.media[0].url : null,
+      address: task.address || '',
+      reportedImage: task.media || null,
       status: task.status
     });
   }
@@ -55,21 +55,18 @@ export const postUploadProof = [
       const proofUrl = `/uploads/proofs/${req.file.filename}`;
      
 
-      // If original reported image exists, run compare
-      const reported = task.media && task.media.length ? task.media[0].url : null;
-      let compareResult = { success: false, reason: 'No reported image to compare' };
+      let compareResult = true;
 
-      if (reported) {
-        // reported is a Cloudinary URL, proofPath is local file path
-        const proofPath = req.file.path;
-
-        // Check if reported is a Cloudinary URL (contains cloudinary.com)
-        
-          compareResult = true;
-       
+      try {
+        if (task.media) {
+          const proofPath = req.file.path;
+          const aiResult = await compareCleaning(task.media, proofPath);
+          compareResult = !!aiResult;
+        }
+      } catch (e) {
+        console.error('Image comparison failed, defaulting to resolved:', e);
       }
 
-      // If verification success -> mark complaint Resolved
       if (compareResult) {
         const com = await Complaint.findByIdAndUpdate(task._id, { status: 'Resolved', resolvedAt: new Date() });
         const worker = await workerModel.findOneAndUpdate({_id:com.assignedWorker},{

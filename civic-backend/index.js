@@ -1,7 +1,10 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 import router from './routes/user.routes.js';
+
 
 import { connectdb } from './db/connectdb.js';
 import router2 from './routes/map.route.js';
@@ -16,8 +19,9 @@ app.use(express.json({limit: "50mb"}));
 app.use(express.urlencoded({ limit: "50mb",extended: true }));
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:5173', `${process.env.frontend}`],
-    credentials: true
+   origin: [`http://localhost:5174`,`${process.env.frontend}`],
+        methods: ["GET", "POST"],
+        credentials:true
 }));
 
 

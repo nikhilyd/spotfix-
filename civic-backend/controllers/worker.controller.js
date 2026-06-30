@@ -11,7 +11,8 @@ export const createworker =async(req,res) => {
         name,
         department,
         location:{
-            lat,lon
+            type: 'Point',
+            coordinates: [Number(lon), Number(lat)]
         },
         address,
         phone,
@@ -40,7 +41,7 @@ export const getallworker = async(req,res) => {
   const worker = await workerModel.find({
     location: {
         $geoWithin:{
-            $centerSphere:[[lat,lon],2000/6371]
+            $centerSphere:[[Number(lon),Number(lat)],2000/6371]
         }
     },
     department

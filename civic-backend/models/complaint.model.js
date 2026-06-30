@@ -15,11 +15,11 @@ const complaintSchema = new mongoose.Schema({
   location:{
     lat:{
         type:Number,
-        require:true
+        required:true
     },
     lon:{
         type:Number,
-        require:true
+        required:true
     }
 
 },

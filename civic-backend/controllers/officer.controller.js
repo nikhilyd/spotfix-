@@ -94,8 +94,7 @@ export const officerlogin = async(req,res) => {
         console.log(token)
         res.cookie("token2", token, { 
             httpOnly: true,
-            secure: true,
-            
+            sameSite: "lax",
         });
         res.status(200).json({ officer:user, token, message: "officer logged in successfully", success: true });
     } catch (error) {

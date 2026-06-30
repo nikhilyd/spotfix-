@@ -32,14 +32,14 @@ required:true
  city:{
   type:String
  },
-location:{
+ location:{
     lat:{
         type:Number,
-        require:true
+        required:true
     },
     lon:{
         type:Number,
-        require:true
+        required:true
     }
 
 },
@@ -50,7 +50,7 @@ socketId:{
 
 
 },{
-    new:true
+    timestamps:true
 });
 officerSchema.pre('save', async function(next) {
     if (this.isModified('password')) {

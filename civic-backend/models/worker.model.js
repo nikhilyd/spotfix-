@@ -24,14 +24,8 @@ type:String,
 require:true
   },
   location: {
-    lat: {
-      type: Number,
-      required: true
-    },
-    lon: {
-      type: Number,
-      required: true
-    }
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: { type: [Number], required: true }
   },
    skills:[
     {
@@ -48,5 +42,7 @@ require:true
     default:"available"
   }
 }, { timestamps: true });
+
+workerSchema.index({ location: "2dsphere" });
 
 export default mongoose.model("Worker", workerSchema);

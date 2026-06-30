@@ -244,14 +244,12 @@ The JSON format should be:
 
 export async function compareCleaning(path1,path2) {
   try {
-    // Validate input paths
     if (!path1 || !path2) {
       throw new Error('Both path1 and path2 are required');
     }
 
-    // Initialize Gemini AI
     const ai = new GoogleGenAI({
-      apiKey: "AIzaSyAQiLeVVh6lnduqpOrOuZIpP2xCXfP9xh0",
+      apiKey: process.env.GEMINI_API_KEY,
     });
 
     // BEFORE IMAGE (from Cloudinary)

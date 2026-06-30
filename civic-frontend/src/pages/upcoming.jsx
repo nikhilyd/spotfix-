@@ -193,9 +193,9 @@ const UpcomingFeatures = () => {
 
   const getStatusColor = (status) => {
     switch(status) {
-      case 'development': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'planning': return 'bg-purple-100 text-purple-800 border-purple-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'development': return 'bg-blue-900/30 text-blue-300 border-blue-600/50';
+      case 'planning': return 'bg-purple-900/30 text-purple-300 border-purple-600/50';
+      default: return 'bg-gray-900/30 text-gray-300 border-gray-600/50';
     }
   };
 
@@ -208,9 +208,9 @@ const UpcomingFeatures = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-12 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 py-12 px-4 relative overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-pink-400/5"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -221,14 +221,14 @@ const UpcomingFeatures = () => {
         >
           <motion.div
             whileHover={{ scale: 1.1, rotate: 5 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl mb-6 shadow-2xl"
+            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl mb-6 shadow-2xl"
           >
             <Sparkles className="w-10 h-10 text-white" />
           </motion.div>
-          <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
             Coming Soon
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Exciting new features that will revolutionize civic issue resolution and community engagement
           </p>
         </motion.div>
@@ -248,13 +248,13 @@ const UpcomingFeatures = () => {
               onClick={() => setActiveCategory(category.id)}
               className={`flex items-center px-6 py-3 rounded-2xl font-semibold transition-all duration-300 ${
                 activeCategory === category.id
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                  : 'bg-white/80 text-gray-700 hover:bg-white shadow-md border border-white/20'
+                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20 shadow-md border border-white/10'
               }`}
             >
               <category.icon className="w-5 h-5 mr-2" />
               {category.label}
-              <span className="ml-2 px-2 py-1 rounded-full text-xs bg-black/10">
+              <span className="ml-2 px-2 py-1 rounded-full text-xs bg-white/10">
                 {category.count}
               </span>
             </motion.button>
@@ -276,7 +276,7 @@ const UpcomingFeatures = () => {
                 exit={{ opacity: 0, scale: 0.9, y: -20 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300 group"
+                className="bg-white/10 backdrop-blur-2xl rounded-3xl p-6 shadow-xl border border-white/10 hover:shadow-2xl transition-all duration-300 group"
               >
                 {/* Feature Icon */}
                 <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-r ${feature.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -289,12 +289,12 @@ const UpcomingFeatures = () => {
                 </div>
 
                 {/* Feature Title */}
-                <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
+                <h3 className="text-xl font-bold text-gray-100 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-400 transition-all duration-300">
                   {feature.title}
                 </h3>
 
                 {/* Feature Description */}
-                <p className="text-gray-600 mb-4 leading-relaxed">
+                <p className="text-gray-300 mb-4 leading-relaxed">
                   {feature.description}
                 </p>
 

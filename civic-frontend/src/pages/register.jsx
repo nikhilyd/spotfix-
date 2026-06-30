@@ -16,7 +16,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import zxcvbn from "zxcvbn";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // ----------------------
 // Schema & Types
@@ -125,8 +125,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-violet-600 via-fuchsia-600 to-rose-500 dark:from-neutral-900 dark:via-neutral-950 dark:to-black flex items-center justify-center p-4">
-    
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -135,139 +134,164 @@ export default function Register() {
         aria-hidden
       >
         <motion.div
-          className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-white/10 blur-3xl"
+          className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"
           animate={{ y: [0, 12, 0], x: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 8 }}
         />
         <motion.div
-          className="absolute -bottom-20 -right-12 h-72 w-72 rounded-full bg-black/10 dark:bg-white/10 blur-3xl"
+          className="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-fuchsia-500/10 blur-3xl"
           animate={{ y: [0, -10, 0], x: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 10 }}
         />
       </motion.div>
 
-      <motion.div
-        initial={{ y: 30, opacity: 0, scale: 0.98 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ type: "spring", stiffness: 120, damping: 16 }}
-        className="w-full max-w-md"
-      >
-        <div className="backdrop-blur-xl bg-white/80 dark:bg-neutral-900/70 shadow-2xl ring-1 ring-black/10 dark:ring-white/10 rounded-2xl p-6 sm:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 grid place-items-center text-white">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-white">
-                Create your account
-              </h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Join our shop to track orders, wishlist, and more.
-              </p>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-            {/* Name */}
-            <Field label="Full name" icon={User} error={errors?.name?.message}>
-              <input
-                type="text"
-                autoComplete="name"
-                className="w-full pl-10 pr-3 h-11 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="Dheeraj Patel"
-                {...register("name")}
-              />
-            </Field>
-
-            {/* Email */}
-            <Field label="Email" icon={Mail} error={errors?.email?.message}>
-              <input
-                type="email"
-                autoComplete="email"
-                className="w-full pl-10 pr-3 h-11 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="you@example.com"
-                {...register("email")}
-              />
-            </Field>
-
-            {/* Phone */}
-            <Field label="Phone" icon={Phone} error={errors?.phone?.message}>
-              <input
-                type="tel"
-                inputMode="numeric"
-                pattern="^[+]?\d{10,15}$"
-                autoComplete="tel"
-                className="w-full pl-10 pr-3 h-11 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="+919876543210"
-                {...register("phone")}
-              />
-            </Field>
-
-            {/* Password */}
-            <Field label="Password" icon={Lock} error={errors?.password?.message}>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  className="w-full pl-10 pr-10 h-10 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500 mt-5 mb-1"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
+      <div className="relative w-full max-w-5xl">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.95fr] items-start">
+          <motion.div
+            initial={{ y: 30, opacity: 0, scale: 0.98 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 16 }}
+            className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/10 p-8 shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-3xl"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/10" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-12 w-12 rounded-3xl bg-gradient-to-br from-violet-500 to-fuchsia-500 grid place-items-center text-white shadow-lg shadow-fuchsia-500/20">
+                  <ShieldCheck className="h-6 w-6" />
+                </div>
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-semibold text-white">
+                    Create your account
+                  </h1>
+                  <p className="text-sm text-slate-300">
+                    Join our civic community and start reporting issues in your area.
+                  </p>
+                </div>
               </div>
-              <PasswordStrength value={passwordValue} />
-            </Field>
 
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ y: -1 }}
-              type="submit"
-              disabled={!isValid || isSubmitting}
-              className="w-full h-11 rounded-xl font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-lg shadow-fuchsia-600/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
-            >
-              {isSubmitting ? (
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Creating account...
-                </span >
-              ) : (
-                "Create account"
-              )}
-            </motion.button>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                <Field label="Full name" icon={User} error={errors?.name?.message}>
+                  <input
+                    type="text"
+                    autoComplete="name"
+                    className="w-full pl-10 pr-3 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                    placeholder="Dheeraj Patel"
+                    {...register("name")}
+                  />
+                </Field>
 
-            {done && (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-sm rounded-xl bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300 px-3 py-2"
-              >
-                <span className="font-medium">Success!</span> Your account has been created.
-              </motion.div>
-            )}
+                <Field label="Email" icon={Mail} error={errors?.email?.message}>
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    className="w-full pl-10 pr-3 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                    placeholder="you@example.com"
+                    {...register("email")}
+                  />
+                </Field>
 
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
-              By creating an account, you agree to our
-              <a className="mx-1 underline underline-offset-4" href="#">Terms</a>
-              and
-              <a className="ml-1 underline underline-offset-4" href="#">Privacy Policy</a>.
+                <Field label="Phone" icon={Phone} error={errors?.phone?.message}>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    pattern="^[+]?\d{10,15}$"
+                    autoComplete="tel"
+                    className="w-full pl-10 pr-3 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                    placeholder="+919876543210"
+                    {...register("phone")}
+                  />
+                </Field>
+
+                <Field label="Password" icon={Lock} error={errors?.password?.message}>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      className="w-full pl-10 pr-10 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                      placeholder="••••••••"
+                      {...register("password")}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((s) => !s)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <PasswordStrength value={passwordValue} />
+                </Field>
+
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ y: -1 }}
+                  type="submit"
+                  disabled={!isValid || isSubmitting}
+                  className="w-full h-12 rounded-3xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold shadow-lg shadow-fuchsia-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" /> Creating account...
+                    </span>
+                  ) : (
+                    "Create account"
+                  )}
+                </motion.button>
+
+                {done && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-3xl bg-emerald-500/10 border border-emerald-400/20 px-4 py-3 text-sm text-emerald-200"
+                  >
+                    <span className="font-medium">Success!</span> Your account has been created.
+                  </motion.div>
+                )}
+
+                <p className="text-xs text-slate-300 text-center">
+                  By creating an account, you agree to our
+                  <a className="mx-1 underline underline-offset-4 text-white" href="#">Terms</a>
+                  and
+                  <a className="ml-1 underline underline-offset-4 text-white" href="#">Privacy Policy</a>.
+                </p>
+              </form>
+            </div>
+
+            <p className="mt-4 text-center text-sm text-slate-300">
+              Already have an account? <Link to="/login" className="underline underline-offset-4 text-white">Sign in</Link>
             </p>
-          </form>
-        </div>
+          </motion.div>
 
-        <p className="mt-4 text-center text-xs text-white/80">
-          Already have an account? <a href="#" className="underline underline-offset-4">Sign in</a>
-        </p>
-      </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="rounded-[32px] border border-white/10 bg-white/10 p-6 shadow-[0_40px_100px_rgba(0,0,0,0.18)] backdrop-blur-3xl"
+          >
+            <div className="text-sm uppercase tracking-[0.24em] text-cyan-300 mb-4">
+              Demo Credentials
+            </div>
+            <div className="space-y-4 text-sm text-slate-200">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <div className="text-slate-400">email</div>
+                <div className="mt-2 font-semibold">nikhil123@gmail.com</div>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <div className="text-slate-400">password</div>
+                <div className="mt-2 font-semibold">Nikhil@123</div>
+              </div>
+            </div>
+            <div className="mt-6 rounded-3xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm text-amber-100">
+              This is a prototype — use the credentials above to test functionality.
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

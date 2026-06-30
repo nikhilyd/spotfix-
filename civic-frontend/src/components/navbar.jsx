@@ -23,21 +23,12 @@ import { OfficerContext } from '../context/officer.context';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const { officer, setofficer } = useContext(OfficerContext);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Scroll listener removed - navbar stays consistent
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -57,66 +48,6 @@ const Navbar = () => {
   };
 
   const userType = getUserType();
-
-  // Improved color schemes with better contrast
-  const colorSchemes = {
-    user: {
-      // Darker blue for better contrast
-      gradient: 'from-blue-600 via-purple-600 to-indigo-700',
-      scrolledBg: 'bg-white/95 backdrop-blur-xl',
-      activeColor: 'text-blue-700',
-      activeBg: 'bg-blue-100',
-      buttonGradient: 'from-blue-600 to-purple-600',
-      hoverText: 'hover:text-blue-700',
-      hoverBg: 'hover:bg-blue-100',
-      badge: 'bg-blue-500',
-      portalName: 'Citizen Portal',
-      borderColor: 'border-blue-200',
-      textColor: 'text-blue-800', // Darker for better contrast
-      lightText: 'text-blue-200',
-      iconColor: 'text-blue-600',
-      mobileGradient: 'from-blue-600 to-purple-700',
-      mobileText: 'text-white' // Always white on mobile for contrast
-    },
-    officer: {
-      // Darker orange/amber for better contrast
-      gradient: 'from-amber-600 via-orange-600 to-red-600',
-      scrolledBg: 'bg-white/95 backdrop-blur-xl',
-      activeColor: 'text-amber-700',
-      activeBg: 'bg-amber-100',
-      buttonGradient: 'from-amber-600 to-orange-600',
-      hoverText: 'hover:text-amber-700',
-      hoverBg: 'hover:bg-amber-100',
-      badge: 'bg-amber-500',
-      portalName: 'Officer Portal',
-      borderColor: 'border-amber-200',
-      textColor: 'text-amber-800', // Much darker for contrast
-      lightText: 'text-amber-200',
-      iconColor: 'text-amber-600',
-      mobileGradient: 'from-amber-600 to-orange-700',
-      mobileText: 'text-white'
-    },
-    guest: {
-      // Darker teal for better contrast
-      gradient: 'from-teal-600 via-cyan-600 to-blue-700',
-      scrolledBg: 'bg-white/95 backdrop-blur-xl',
-      activeColor: 'text-teal-700',
-      activeBg: 'bg-teal-100',
-      buttonGradient: 'from-teal-600 to-cyan-600',
-      hoverText: 'hover:text-teal-700',
-      hoverBg: 'hover:bg-teal-100',
-      badge: 'bg-teal-500',
-      portalName: 'Community Platform',
-      borderColor: 'border-teal-200',
-      textColor: 'text-teal-800',
-      lightText: 'text-teal-200',
-      iconColor: 'text-teal-600',
-      mobileGradient: 'from-teal-600 to-cyan-700',
-      mobileText: 'text-white'
-    }
-  };
-
-  const colors = colorSchemes[userType];
 
   const navItems = {
     user: [
@@ -181,25 +112,8 @@ const Navbar = () => {
 
   // Icons with better visibility
   const getLogoIcon = () => {
-    if (userType === 'user') {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      );
-    } else if (userType === 'officer') {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      );
-    } else {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20a2 2 0 002-2V8a2 2 0 00-2-2h-2.5a2 2 0 00-1.6.8L12 12.5 8.1 6.8A2 2 0 006.5 6H4a2 2 0 00-2 2v10a2 2 0 002 2h15z" />
-        </svg>
-      );
-    }
+    // Simplified - just return the C letter icon
+    return null;
   };
 
   return (
@@ -207,13 +121,10 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled 
-          ? `${colors.scrolledBg} shadow-soft border-b ${colors.borderColor}` 
-          : `bg-gradient-to-r ${colors.gradient} shadow-gentle`
-      }`}
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl transition-all duration-500 bg-gradient-to-br from-slate-900/40 via-slate-800/30 to-slate-900/40 backdrop-blur-2xl border border-cyan-500/30 rounded-2xl"
+      style={{ boxShadow: '0 0 40px rgba(34, 211, 238, 0.25), inset 0 1px 0 rgba(34, 211, 238, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.2)' }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-full mx-auto px-6 sm:px-8 lg:px-10">
         <div className="flex justify-between items-center h-20">
           {/* Logo with Larger Font */}
           <motion.div 
@@ -225,81 +136,33 @@ const Navbar = () => {
               <div className="relative">
                 <motion.div 
                   whileHover={{ rotate: 5 }}
-                  className={`w-16 h-16 rounded-2xl ${
-                    scrolled 
-                      ? 'bg-white shadow-soft border border-white/80' 
-                      : 'bg-white/20 backdrop-blur-sm border border-white/30'
-                  } flex items-center justify-center transition-all duration-300 group-hover:shadow-gentle`}
+                  className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg border border-cyan-300/50"
+                  style={{ boxShadow: '0 0 20px rgba(34, 211, 238, 0.3)' }}
                 >
-                  {getLogoIcon()}
+                  <span className="text-white font-bold text-lg">C</span>
                 </motion.div>
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className={`absolute -top-1 -right-1 w-4 h-4 ${colors.badge} rounded-full border-2 border-white shadow-sm`}
-                ></motion.div>
               </div>
               <div className="flex flex-col">
                 <motion.span 
-                  className={`text-3xl font-bold ${
-                    scrolled ? colors.textColor : 'text-white'
-                  } tracking-tight`} // Increased to text-3xl
+                  className="text-xl font-bold text-white tracking-tight"
                   whileHover={{ x: 2 }}
                 >
                   CivicSolver
                 </motion.span>
-                <span className={`text-sm font-medium ${
-                  scrolled ? `${colors.textColor}/80` : colors.lightText
-                } tracking-wide mt-1`}> {/* Increased to text-sm */}
-                  {colors.portalName}
+                <span className="text-xs font-medium text-cyan-300 tracking-wide mt-0.5">
+                  AI-Powered Civic Platform
                 </span>
               </div>
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation - Larger Font Size */}
-          <div className="hidden lg:flex items-center space-x-6">
-            {/* User/Officer Badge with Larger Text */}
-            {(user || officer) && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className={`flex items-center space-x-3 ${
-                  scrolled 
-                    ? 'bg-white/90 shadow-soft border border-white/80' 
-                    : 'bg-white/20 backdrop-blur-sm border border-white/30'
-                } rounded-2xl px-5 py-3 transition-all duration-300`} // Increased padding
-              >
-                <div className={`p-2 rounded-full ${
-                  scrolled ? `${colors.activeBg}` : 'bg-white/30'
-                }`}>
-                  {userType === 'user' ? (
-                    <UserCircleIcon className={`w-6 h-6 ${scrolled ? colors.iconColor : 'text-white'}`} />
-                  ) : (
-                    <IdentificationIcon className={`w-6 h-6 ${scrolled ? colors.iconColor : 'text-white'}`} />
-                  )}
-                </div>
-                <div className="flex flex-col">
-                  <span className={`text-base font-bold ${
-                    scrolled ? colors.textColor : 'text-white'
-                  }`}> {/* Increased to text-base */}
-                    {user ? user.name : officer ? officer.name : ''}
-                  </span>
-                  <span className={`text-xs ${
-                    scrolled ? `${colors.textColor}/70` : 'text-white/80'
-                  } mt-1`}>
-                    {userType === 'user' ? 'Verified Citizen' : 'Municipal Officer'}
-                  </span>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Navigation Items with Larger Font */}
+          {/* Desktop Navigation - All items visible */}
+          <div className="hidden lg:flex items-center space-x-2">
             <motion.div 
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="flex items-center space-x-3" // Increased space
+              className="flex items-center space-x-2"
             >
               {navItems[userType].map((item, index) => {
                 const isActive = location.pathname === item.path;
@@ -313,25 +176,19 @@ const Navbar = () => {
                   >
                     <Link
                       to={item.path}
-                      className={`relative flex items-center px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 group ${
+                      className={`relative flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group ${
                         isActive
-                          ? scrolled
-                            ? `text-white bg-gradient-to-r ${colors.buttonGradient} shadow-gentle`
-                            : 'text-white bg-white/30 shadow-gentle backdrop-blur-sm'
-                          : scrolled
-                          ? `text-gray-700 ${colors.hoverText} ${colors.hoverBg} hover:shadow-soft`
-                          : `text-white hover:text-white hover:bg-white/20 hover:backdrop-blur-sm`
-                      }`} // Increased to text-base and font-semibold
+                          ? 'text-cyan-300'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
                     >
-                      <item.icon className={`w-5 h-5 mr-3 transition-transform duration-300 group-hover:scale-110 ${
-                        isActive ? 'animate-pulse' : ''
-                      }`} />
+                      <item.icon className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
                       {item.name}
                       
                       {isActive && (
                         <motion.div
                           layoutId="activeIndicator"
-                          className="absolute inset-0 rounded-xl bg-white/20"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
                           transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         />
                       )}
@@ -340,35 +197,29 @@ const Navbar = () => {
                 );
               })}
 
-              {/* Logout Button with Larger Font */}
+              {/* Logout Button */}
               {(user || officer) && (
                 <motion.button
                   variants={itemVariants}
                   whileHover={{ scale: 1.05, x: 2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleLogout}
-                  className={`flex items-center px-5 py-3 rounded-xl text-base font-semibold transition-all duration-300 ${
-                    scrolled
-                      ? 'text-rose-600 bg-rose-50/80 hover:bg-rose-100/80 hover:shadow-soft'
-                      : 'text-rose-100 bg-rose-500/30 hover:bg-rose-500/40 hover:backdrop-blur-sm'
-                  }`} // Increased to text-base
+                  className="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 transition-all duration-300"
                 >
-                  <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" />
+                  <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
                   Logout
                 </motion.button>
               )}
             </motion.div>
           </div>
 
-          {/* Mobile menu button - Larger */}
-          <div className="lg:hidden flex items-center space-x-4"> {/* Increased space */}
+          {/* Mobile menu button */}
+          <div className="lg:hidden flex items-center space-x-4">
             {(user || officer) && (
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={`hidden sm:block text-base font-bold px-4 py-2 rounded-full ${
-                  scrolled ? `${colors.activeBg} ${colors.textColor}` : 'bg-white/20 text-white'
-                } backdrop-blur-sm`} // Increased to text-base
+                className="hidden sm:block text-sm font-bold px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 backdrop-blur-sm border border-cyan-500/30"
               >
                 {user ? user.name.split(' ')[0] : officer ? `Officer` : ''}
               </motion.div>
@@ -378,23 +229,19 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleMenu}
-              className={`inline-flex items-center justify-center p-4 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
-                scrolled 
-                  ? 'bg-white/90 shadow-soft text-gray-700 hover:bg-white' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`} // Increased padding to p-4
+              className="inline-flex items-center justify-center p-2.5 rounded-lg bg-slate-700/40 text-cyan-300 hover:bg-slate-600/40 hover:text-cyan-200 transition-all duration-300 border border-cyan-500/20 backdrop-blur-sm"
             >
               {isOpen ? (
-                <XMarkIcon className="h-6 w-6" />
+                <XMarkIcon className="h-5 w-5" />
               ) : (
-                <Bars3Icon className="h-6 w-6" /> 
+                <Bars3Icon className="h-5 w-5" /> 
               )}
             </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Enhanced Mobile Navigation Menu with Larger Font */}
+      {/* Enhanced Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -402,7 +249,7 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 backdrop-blur-lg lg:hidden z-40"
+              className="fixed inset-0 bg-black/50 backdrop-blur-lg lg:hidden z-40"
               onClick={() => setIsOpen(false)}
             />
             
@@ -411,60 +258,60 @@ const Navbar = () => {
               initial="closed"
               animate="open"
               exit="closed"
-              className={`fixed top-0 right-0 h-full w-80 z-50 lg:hidden bg-white shadow-2xl border-l ${colors.borderColor}`}
+              className="fixed top-24 right-4 w-80 z-50 lg:hidden bg-gradient-to-b from-slate-900/50 to-slate-950/60 shadow-2xl border border-cyan-500/30 rounded-2xl backdrop-blur-2xl"
             >
-              {/* Mobile Header with Better Contrast */}
-              <div className={`h-28 px-6 flex items-center justify-between bg-gradient-to-r ${colors.mobileGradient}`}>
-                <div className="flex items-center space-x-4">
-                  <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                    {getLogoIcon()}
+              {/* Mobile Header */}
+              <div className="px-6 py-4 flex items-center justify-between bg-gradient-to-r from-slate-900/40 via-slate-800/30 to-slate-900/40 border-b border-cyan-500/20 rounded-t-2xl">
+                <div className="flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center border border-cyan-300/50"
+                    style={{ boxShadow: '0 0 15px rgba(34, 211, 238, 0.3)' }}>
+                    <span className="text-white font-bold text-sm">C</span>
                   </div>
                   <div className="text-white">
-                    <div className="font-bold">CivicSolver</div> {/* Increased to text-2xl */}
-                    <div className="text-sm opacity-90 mt-1">{colors.portalName}</div>
+                    <div className="font-bold text-lg">CivicSolver</div>
+                    <div className="text-xs text-cyan-300 mt-0">Platform</div>
                   </div>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsOpen(false)}
-                  className="p-3 rounded-xl text-white hover:bg-white/20 transition-all duration-200"
+                  className="p-2 rounded-lg text-cyan-300 hover:bg-slate-700/60 hover:text-cyan-200 transition-all duration-200"
                 >
-                  <XMarkIcon className="h-7 w-7" /> {/* Increased icon size */}
+                  <XMarkIcon className="h-6 w-6" />
                 </motion.button>
               </div>
 
-              {/* User Info Section with Larger Text */}
+              {/* User Info Section */}
               {(user || officer) && (
-                <div className={`px-6 py-5 border-b ${colors.borderColor} bg-gray-50`}>
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-full ${colors.activeBg}`}>
+                <div className="px-6 py-4 border-b border-cyan-500/20 bg-slate-800/40">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30">
                       {userType === 'user' ? (
-                        <UserCircleIcon className={`w-7 h-7 ${colors.iconColor}`} />
+                        <UserCircleIcon className="w-6 h-6 text-cyan-300" />
                       ) : (
-                        <IdentificationIcon className={`w-7 h-7 ${colors.iconColor}`} />
+                        <IdentificationIcon className="w-6 h-6 text-cyan-300" />
                       )}
                     </div>
                     <div className="flex-1">
-                      <div className={`font-bold text-lg ${colors.textColor}`}> {/* Increased to text-lg */}
+                      <div className="font-bold text-white text-sm">
                         {user ? user.name : officer ? `Officer ${officer.name}` : ''}
                       </div>
-                      <div className={`text-base ${colors.textColor}/70 mt-1`}> {/* Increased to text-base */}
+                      <div className="text-xs text-slate-400 mt-0.5">
                         {userType === 'user' ? 'Citizen Account' : 'Municipal Officer'}
                       </div>
                     </div>
-                    <div className={`w-3 h-3 rounded-full ${colors.badge} animate-pulse`}></div>
                   </div>
                 </div>
               )}
 
-              {/* Mobile Menu Items with Larger Font */}
-              <div className="px-5 py-6 h-full flex flex-col">
+              {/* Mobile Menu Items */}
+              <div className="px-4 py-5 h-full flex flex-col">
                 <motion.div 
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
-                  className="flex-1 space-y-4" 
+                  className="flex-1 space-y-2" 
                 >
                   {navItems[userType].map((item, index) => {
                     const isActive = location.pathname === item.path;
@@ -478,20 +325,18 @@ const Navbar = () => {
                         <Link
                           to={item.path}
                           onClick={() => setIsOpen(false)}
-                          className={`flex items-center px-5 py-4 rounded-xl text-lg font-semibold transition-all duration-300 group ${
+                          className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 group ${
                             isActive
-                              ? `text-white bg-gradient-to-r ${colors.buttonGradient} shadow-gentle`
-                              : `text-gray-800 hover:${colors.hoverBg} hover:${colors.hoverText} hover:shadow-soft`
-                          }`} // Increased to text-lg
+                              ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/40 backdrop-blur-sm'
+                              : 'text-slate-300 hover:text-white hover:bg-slate-700/30 border border-transparent backdrop-blur-sm'
+                          }`}
                         >
-                          <item.icon className={`w-6 h-6 mr-4 transition-transform duration-300 group-hover:scale-110 ${
-                            isActive ? 'animate-pulse' : ''
-                          }`} />
+                          <item.icon className="w-5 h-5 mr-3 transition-transform duration-300 group-hover:scale-110" />
                           {item.name}
                           {isActive && (
                             <motion.div
                               layoutId="mobileActiveIndicator"
-                              className="ml-auto w-3 h-3 bg-white rounded-full animate-pulse"
+                              className="ml-auto w-2 h-2 bg-cyan-400 rounded-full"
                             />
                           )}
                         </Link>
@@ -500,14 +345,14 @@ const Navbar = () => {
                   })}
                 </motion.div>
 
-                {/* Mobile Logout Button with Larger Font */}
+                {/* Mobile Logout Button */}
                 {(user || officer) && (
                   <motion.button
                     variants={itemVariants}
                     onClick={handleLogout}
-                    className="flex items-center justify-center w-full px-5 py-4 mt-6 rounded-xl text-lg font-semibold text-rose-700 bg-rose-100 hover:bg-rose-200 transition-all duration-300 shadow-soft"
-                  > {/* Increased to text-lg */}
-                    <ArrowRightOnRectangleIcon className="w-6 h-6 mr-3" />
+                    className="flex items-center justify-center w-full px-4 py-3 mt-6 rounded-lg text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-all duration-300 border border-red-500/30 backdrop-blur-sm"
+                  >
+                    <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" />
                     Sign Out
                   </motion.button>
                 )}
@@ -517,13 +362,19 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Custom CSS for soft shadows */}
-      <style jsx>{`
-        .shadow-soft {
-          box-shadow: 0 4px 25px -2px rgba(0, 0, 0, 0.1);
+      {/* Custom CSS for glassmorphism glow effects */}
+      <style>{`
+        @keyframes glow-pulse {
+          0%, 100% {
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.25), inset 0 1px 0 rgba(34, 211, 238, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 60px rgba(34, 211, 238, 0.4), inset 0 1px 0 rgba(34, 211, 238, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+          }
         }
-        .shadow-gentle {
-          box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+        
+        nav {
+          animation: glow-pulse 3s ease-in-out infinite;
         }
       `}</style>
     </motion.nav>

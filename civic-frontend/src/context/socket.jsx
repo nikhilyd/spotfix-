@@ -4,7 +4,7 @@ import { createContext,  useEffect } from "react";
 import {io} from 'socket.io-client';
 export const Socketcontext = createContext();
 
-const socket = io(`http://localhost:5000`);
+const socket = io(import.meta.env.VITE_API_URL);
 
 export const  Usesocket = ({children}) => {
 

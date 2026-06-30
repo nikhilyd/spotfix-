@@ -52,34 +52,40 @@ export default function OfficerLogin() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   const onSubmit = async (data) => {
     setDone(false);
+    setError("");
     await new Promise((res) => setTimeout(res, 1200));
-    console.log("Logged in:", data);
+    const apiUrl = `${import.meta.env.VITE_API_URL}/officer/login`;
+    console.log("Requesting URL:", apiUrl);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/officer/login`, data, {
+      const response = await axios.post(apiUrl, data, {
         withCredentials:true
       })
       if(response.data.success) {
         localStorage.setItem("token2", JSON.stringify(response.data.token));
         setofficer(response.data.officer);
+        setDone(true);
         console.log("ok")
         navigate("/");
       
       }
     } catch (error) {
       console.error("Login failed:", error);
+      console.error("Error config:", error.config);
+      console.error("Error response:", error.response);
+      console.error("Error request:", error.request);
+      setError(error.response?.data?.error || error.message || "Login failed. Please try again.");
       return;
       
     }
-    setDone(true);
     reset({ email: data.email, password: "" });
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600 dark:from-neutral-900 dark:via-neutral-950 dark:to-black flex items-center justify-center p-4">
-      {/* Background accents */}
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -88,134 +94,149 @@ export default function OfficerLogin() {
         aria-hidden
       >
         <motion.div
-          className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-white/10 blur-3xl"
+          className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"
           animate={{ y: [0, 12, 0], x: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 8 }}
         />
         <motion.div
-          className="absolute -bottom-20 -right-12 h-72 w-72 rounded-full bg-black/10 dark:bg-white/10 blur-3xl"
+          className="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-fuchsia-500/10 blur-3xl"
           animate={{ y: [0, -10, 0], x: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 10 }}
         />
       </motion.div>
 
-      <motion.div
-        initial={{ y: 30, opacity: 0, scale: 0.98 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ type: "spring", stiffness: 120, damping: 16 }}
-        className="w-full max-w-md"
-      >
-        <div className="backdrop-blur-xl bg-white/80 dark:bg-neutral-900/70 shadow-2xl ring-1 ring-black/10 dark:ring-white/10 rounded-2xl p-6 sm:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 grid place-items-center text-white">
-              <LogIn className="h-5 w-5" />
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-white">
-                Welcome back
-              </h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Sign in to continue shopping with us.
-              </p>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-            {/* Email */}
-            <Field label="Email" icon={Mail} error={errors?.email?.message}>
-              <input
-                type="email"
-                autoComplete="email"
-                className="w-full pl-10 pr-3 h-11 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                placeholder="you@example.com"
-                {...register("email")}
-              />
-            </Field>
-
-            {/* Password */}
-            <Field label="Password" icon={Lock} error={errors?.password?.message}>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
-                  className="w-full pl-10 pr-10 h-11 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/60 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
+      <div className="relative w-full max-w-5xl">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.95fr] items-start">
+          <motion.div
+            initial={{ y: 30, opacity: 0, scale: 0.98 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 16 }}
+            className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/10 p-8 shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-3xl"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/10" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-12 w-12 rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-500 grid place-items-center text-white shadow-lg shadow-cyan-500/20">
+                  <LogIn className="h-6 w-6" />
+                </div>
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-semibold text-white">
+                    Officer sign in
+                  </h1>
+                  <p className="text-sm text-slate-300">
+                    Sign in to manage civic actions and officer workflows.
+                  </p>
+                </div>
               </div>
-            </Field>
 
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ y: -1 }}
-              type="submit"
-              disabled={!isValid || isSubmitting}
-              className="w-full h-11 rounded-xl font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-cyan-600 to-blue-600 shadow-lg shadow-blue-600/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            >
-              {isSubmitting ? (
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
-                </span>
-              ) : (
-                "Sign in"
-              )}
-            </motion.button>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                <Field label="Email" icon={Mail} error={errors?.email?.message}>
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    className="w-full pl-10 pr-3 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    placeholder="you@example.com"
+                    {...register("email")}
+                  />
+                </Field>
 
-            {done && (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-sm rounded-xl bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300 px-3 py-2"
-              >
-                <span className="font-medium">Success!</span> You are now logged in.
-              </motion.div>
-            )}
+                <Field label="Password" icon={Lock} error={errors?.password?.message}>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      className="w-full pl-10 pr-10 h-12 rounded-3xl border border-white/10 bg-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      placeholder="••••••••"
+                      {...register("password")}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((s) => !s)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </Field>
 
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-3xl bg-red-500/10 border border-red-400/20 px-4 py-3 text-sm text-red-200"
+                  >
+                    {error}
+                  </motion.div>
+                )}
 
-            <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400">
-              <a href="/login" className="underline underline-offset-4">
-                sign via user
-              </a>
-              <Link to="/officer" className="underline underline-offset-4">
-                Create account
-              </Link>
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ y: -1 }}
+                  type="submit"
+                  disabled={!isValid || isSubmitting}
+                  className="w-full h-12 rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
+                    </span>
+                  ) : (
+                    "Sign in"
+                  )}
+                </motion.button>
+
+                {done && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-3xl bg-emerald-500/10 border border-emerald-400/20 px-4 py-3 text-sm text-emerald-200"
+                  >
+                    <span className="font-medium">Success!</span> You are now logged in.
+                  </motion.div>
+                )}
+
+                <div className="flex flex-col gap-2 text-sm text-slate-300 sm:flex-row sm:justify-between">
+                  <a href="/login" className="underline underline-offset-4 hover:text-white">
+                    sign via user
+                  </a>
+                  <Link to="/officer" className="underline underline-offset-4 hover:text-white">
+                    Create account
+                  </Link>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </motion.div>
-          <div className="bg-white p-6 rounded-lg shadow-lg ml-8 border-gray-200">
-  <div className="text-sm text-gray-600 mb-4 text-center">
-    Demo Credentials
-  </div>
-  
-  <div className="space-y-3 font-mono text-sm">
-    <div className="flex items-center p-3 bg-gray-50 rounded-md border-l-4 border-blue-500">
-      <span className="text-gray-500 mr-2">email:</span>
-      <span className="text-gray-800 font-medium">tony2@gmail.com</span>
-    </div>
-    
-    <div className="flex items-center p-3 bg-gray-50 rounded-md border-l-4 border-green-500">
-      <span className="text-gray-500 mr-2">password:</span>
-      <span className="text-gray-800 font-medium">Dheeraj@123</span>
-    </div>
-  </div>
+          </motion.div>
 
-  <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md text-xs text-yellow-700 text-center">
-    This is a prototype - use the credentials above to test functionality
-  </div>
-</div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="rounded-[32px] border border-white/10 bg-white/10 p-6 shadow-[0_40px_100px_rgba(0,0,0,0.18)] backdrop-blur-3xl"
+          >
+            <div className="text-sm uppercase tracking-[0.24em] text-cyan-300 mb-4">
+              Demo Credentials
+            </div>
+            <div className="space-y-4 text-sm text-slate-200">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <div className="text-slate-400">email</div>
+                <div className="mt-2 font-semibold">nikhill123@gmail.com</div>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <div className="text-slate-400">password</div>
+                <div className="mt-2 font-semibold">Nikhil@123</div>
+              </div>
+            </div>
+            <div className="mt-6 rounded-3xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm text-amber-100">
+              This is a prototype — use the credentials above to test functionality.
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

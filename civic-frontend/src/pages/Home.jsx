@@ -259,16 +259,25 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" style={{
+      '--glow-purple': '0 0 40px rgba(168, 85, 247, 0.3)',
+      '--glow-cyan': '0 0 40px rgba(34, 211, 238, 0.2)',
+      '--glow-blue': '0 0 40px rgba(59, 130, 246, 0.3)'
+    }}>
       {/* Enhanced Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        {/* Animated Background */}
-        <div className={`absolute top-0 left-0 w-full h-full bg-gradient-to-br ${content.gradient} transform skew-y-3 origin-top-left`}></div>
-        <div className="absolute inset-0 bg-black/10 mix-blend-multiply"></div>
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        {/* Animated Background with Glow */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/2 left-0 w-72 h-72 bg-blue-600/15 rounded-full blur-3xl"></div>
+        </div>
         
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        {/* Grid Pattern Overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '50px 50px'
+        }}></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -282,21 +291,22 @@ const HomePage = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.5, type: "spring" }}
-              className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full mb-8 border border-white/30"
+              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 backdrop-blur-xl rounded-full mb-8 border border-purple-500/30"
+              style={{ boxShadow: 'var(--glow-purple)' }}
             >
-              <SparklesIcon className="w-5 h-5 text-white mr-2" />
-              <span className="text-white font-semibold text-sm">
+              <SparklesIcon className="w-4 h-4 text-purple-400 mr-2" />
+              <span className="text-cyan-300 font-semibold text-sm">
                 {user ? 'Citizen Portal' : officer ? 'Officer Dashboard' : 'Community Platform'}
               </span>
             </motion.div>
 
-            <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
               {content.heroTitle}
               <motion.span 
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="block text-3xl md:text-4xl text-white/90 mt-4 font-light"
+                className="block text-2xl md:text-4xl bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mt-3 font-light"
               >
                 {content.heroSubtitle}
               </motion.span>
@@ -306,7 +316,7 @@ const HomePage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed"
+              className="text-lg text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed"
             >
               {content.description}
             </motion.p>
@@ -315,16 +325,16 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row justify-center gap-6 mb-16"
+              className="flex flex-col sm:flex-row justify-center gap-6 mb-20"
             >
               <motion.button
                 whileHover={{ 
                   scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.2)"
+                  boxShadow: "0 0 30px rgba(168, 85, 247, 0.5)"
                 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleButtonClick(content.primaryLink)}
-                className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center group"
+                className="px-10 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl font-bold text-base transition-all duration-300 flex items-center justify-center group border border-purple-400/30 hover:border-purple-400/60"
               >
                 {content.primaryButton}
                 <RocketLaunchIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -333,11 +343,11 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ 
                   scale: 1.05,
-                  backgroundColor: "rgba(255,255,255,0.2)"
+                  boxShadow: "0 0 30px rgba(34, 211, 238, 0.4)"
                 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleButtonClick(content.secondaryLink)}
-                className="px-10 py-5 bg-transparent border-2 border-white text-white rounded-2xl font-bold text-lg backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
+                className="px-10 py-4 bg-transparent border-2 border-cyan-400/40 text-cyan-300 rounded-xl font-bold text-base backdrop-blur-xl hover:bg-cyan-400/10 hover:border-cyan-400/80 transition-all duration-300"
               >
                 {content.secondaryButton}
               </motion.button>
@@ -349,23 +359,31 @@ const HomePage = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8"
+            className="bg-slate-950/80 backdrop-blur-3xl rounded-[32px] border border-white/10 p-6 md:p-8"
+            style={{ boxShadow: '0 40px 120px rgba(0,0,0,0.35)' }}
           >
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {stats.map((stat, index) => (
                 <motion.div 
                   key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="text-center p-6 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.45, delay: 1.1 + index * 0.1 }}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  className="relative overflow-hidden rounded-[28px] border border-white/10 bg-slate-900/75 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.55)] transition-all duration-300"
                 >
-                  <div className="text-white mb-3 flex justify-center">
-                    {stat.icon}
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-slate-300 to-purple-500 opacity-80"></div>
+                  <div className="relative z-10 flex flex-col items-center justify-center gap-4 text-center">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 border border-white/10 text-cyan-300 shadow-lg shadow-cyan-500/10">
+                      {stat.icon}
+                    </div>
+                    <div className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-400">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.value}</div>
-                  <div className="text-white/80 font-medium">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -374,7 +392,7 @@ const HomePage = () => {
       </section>
 
       {/* User-Specific Features Section */}
-      <section className="py-24 bg-white/50 backdrop-blur-sm">
+      <section className="py-24 bg-gradient-to-b from-slate-900/50 to-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -383,10 +401,10 @@ const HomePage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               {user ? 'Your Civic Tools' : officer ? 'Officer Management Features' : 'Why Choose CivicSolver?'}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
               {user ? 'Everything you need to effectively report and track civic issues in your community.' 
                : officer ? 'Powerful tools to efficiently manage civic issues and coordinate your team.'
                : 'Experience the future of civic issue resolution with our AI-powered platform.'}
@@ -405,23 +423,21 @@ const HomePage = () => {
                 key={index}
                 variants={itemVariants}
                 whileHover={{ 
-                  y: -15,
-                  scale: 1.02,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                  y: -12,
+                  scale: 1.02
                 }}
-                className="group relative bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100"
+                className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/10 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.3)] backdrop-blur-xl transition-all duration-500 hover:border-cyan-300/30 hover:bg-white/20"
               >
-                {/* Background Gradient on Hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${content.gradient} rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-slate-950/10 opacity-80"></div>
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-80"></div>
                 
-                <div className={`text-${userType === 'user' ? 'blue' : officer ? 'amber' : 'teal'}-600 mb-6 transform group-hover:scale-110 transition-transform duration-300`}>
-                  {feature.icon}
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-3xl bg-white/15 border border-white/15 flex items-center justify-center mb-6 text-cyan-300 shadow-lg shadow-cyan-500/10 transition-all duration-300 group-hover:bg-white/25 group-hover:text-cyan-200">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
+                  <p className="text-slate-200 leading-relaxed">{feature.description}</p>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-                
-                {/* Hover Effect Line */}
-                <div className={`absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r ${content.gradient} group-hover:w-full transition-all duration-500 rounded-full`}></div>
               </motion.div>
             ))}
           </motion.div>
@@ -429,14 +445,18 @@ const HomePage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-blue-900 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-            backgroundSize: '50px 50px'
-          }}></div>
+      <section className="py-24 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 relative overflow-hidden">
+        {/* Background Glow Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-1/2 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-1/2 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
         </div>
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '50px 50px'
+        }}></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -446,10 +466,10 @@ const HomePage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <h2 className="text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               {user ? 'How It Works for You' : officer ? 'Your Workflow' : 'Simple 3-Step Process'}
             </h2>
-            <p className="text-xl text-purple-200 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
               {user ? 'From reporting to resolution - see how easy it is to make a difference' 
                : officer ? 'Streamlined process for efficient civic issue management'
                : 'Get started in minutes and see real results in your community'}
@@ -457,35 +477,34 @@ const HomePage = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connecting Line */}
-            <div className="hidden md:block absolute top-24 left-1/4 right-1/4 h-1 bg-white/20 rounded-full"></div>
+            {/* Connecting Line with gradient */}
+            <div className="hidden md:block absolute top-32 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
             
             {steps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ y: -10 }}
-                className="relative bg-white/10 backdrop-blur-lg p-8 rounded-3xl text-center border border-white/20 hover:bg-white/15 transition-all duration-300 group"
+                whileHover={{ y: -12 }}
+                className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/10 p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.3)] backdrop-blur-xl transition-all duration-300 hover:border-cyan-300/30 hover:bg-white/20"
               >
-                {/* Step Number */}
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/15 via-transparent to-slate-950/10"></div>
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-90"></div>
+
+                <div className="relative z-10">
+                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 shadow-lg shadow-cyan-500/20 border border-white/20 flex items-center justify-center text-white font-bold">
                     {step.number}
-                  </span>
-                </div>
+                  </div>
 
-                <div className="text-white mb-6 mt-4 flex justify-center">
-                  {step.icon}
+                  <div className="text-cyan-300 mb-8 mt-4 flex justify-center transition-colors duration-300">
+                    {step.icon}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-4">{step.title}</h3>
+                  <p className="text-slate-200 leading-relaxed">{step.description}</p>
                 </div>
-                
-                <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-purple-200 leading-relaxed">{step.description}</p>
-
-                {/* Hover Glow */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </motion.div>
             ))}
           </div>
@@ -493,7 +512,7 @@ const HomePage = () => {
       </section>
 
       {/* Additional Features */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-gradient-to-b from-slate-900 to-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -502,8 +521,8 @@ const HomePage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Advanced Features</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Advanced Features</h2>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
               Powered by cutting-edge technology for the best civic experience
             </p>
           </motion.div>
@@ -516,16 +535,18 @@ const HomePage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                whileHover={{ y: -5 }}
-                className="text-center p-6 group"
+                whileHover={{ y: -8 }}
+                className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/10 p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.25)] backdrop-blur-xl transition-all duration-300 hover:border-cyan-300/30 hover:bg-white/20"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <div className="text-white">
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/20"></div>
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-80"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-3xl bg-white/15 border border-white/15 flex items-center justify-center mx-auto mb-6 text-cyan-300 shadow-lg shadow-cyan-500/10 transition-all duration-300 group-hover:bg-white/25 group-hover:text-cyan-200">
                     {feature.icon}
                   </div>
+                  <h3 className="text-lg font-semibold text-white mb-4">{feature.title}</h3>
+                  <p className="text-slate-200 text-sm leading-relaxed">{feature.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -533,9 +554,12 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-900 to-blue-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/10 to-transparent"></div>
+      <section className="py-24 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 relative overflow-hidden">
+        {/* Glow elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-1/2 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        </div>
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -544,12 +568,12 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               {user ? 'Ready to Report Another Issue?' 
                : officer ? 'Start Managing Complaints?'
                : 'Ready to Transform Your Community?'}
             </h2>
-            <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10 leading-relaxed">
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
               {user ? 'Join thousands of citizens making their communities better every day.'
                : officer ? 'Efficiently manage civic issues with our AI-powered platform.'
                : 'Experience the future of civic issue resolution today.'}
@@ -558,17 +582,17 @@ const HomePage = () => {
             <motion.button
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 20px 40px rgba(255,255,255,0.2)"
+                boxShadow: "0 0 40px rgba(168, 85, 247, 0.6)"
               }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleButtonClick(content.primaryLink)}
-              className="px-12 py-6 bg-white text-gray-900 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 inline-flex items-center group"
+              className="px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl font-bold text-base transition-all duration-300 inline-flex items-center group border border-purple-400/30 hover:border-purple-400/60"
             >
               {content.primaryButton}
               <RocketLaunchIcon className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             
-            <p className="mt-8 text-blue-300 text-lg">
+            <p className="mt-8 text-slate-400 text-base">
               {user ? 'Your previous issues: 12 resolved • 3 in progress' 
                : officer ? 'Active cases: 248 • Team performance: 92%'
                : 'No registration required • Completely free to use'}
@@ -577,16 +601,33 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Custom CSS for enhanced shadows */}
-      <style jsx>{`
-        .shadow-2xl {
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      {/* Custom CSS for glow effects */}
+      <style>{`
+        @keyframes glow-pulse {
+          0%, 100% {
+            opacity: 0.6;
+          }
+          50% {
+            opacity: 1;
+          }
         }
-        .shadow-3xl {
-          box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
         }
-        .backdrop-blur-lg {
-          backdrop-filter: blur(16px);
+        
+        .animate-pulse {
+          animation: glow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .glow-effect {
+          box-shadow: 0 0 20px rgba(168, 85, 247, 0.4),
+                      0 0 40px rgba(168, 85, 247, 0.2);
         }
       `}</style>
     </div>
